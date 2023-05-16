@@ -26,6 +26,10 @@ make sure you are connected to a kubernetes cluster and type `make install` this
 (which curretnly prints something to the logs and thats it)
 
 ```
+make
+```
+
+```
 /Users/croedig/gitrepos/demooperator/bin/controller-gen rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 test -s /Users/croedig/gitrepos/demooperator/bin/kustomize || { curl -Ss "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" --output install_kustomize.sh && bash install_kustomize.sh 5.0.0 /Users/croedig/gitrepos/demooperator/bin; rm install_kustomize.sh; }
 v5.0.0
