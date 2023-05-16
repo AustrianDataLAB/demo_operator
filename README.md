@@ -40,3 +40,8 @@ kubectl get crd
 ```
 
 edit the spec in the sample yaml config/samples/demooperator_v1_lvavolume.yaml and apply it
+
+then you can run `make run` and observe that the amazing logs are being produced
+```
+2023-05-16T10:51:18+02:00       INFO    You are executing the reconcile loop right now  {"controller": "lvavolume", "controllerGroup": "demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org", "controllerKind": "LvaVolume", "LvaVolume": {"name":"lvavolume-sample","namespace":"default"}, "namespace": "default", "name": "lvavolume-sample", "reconcileID": "057d3a41-0fee-49d0-aca7-8fe2f31834ff", "req": "default/lvavolume-sample"}
+```
