@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/part-of: demooperator
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/created-by: demooperator
-  name: lvavolume-sample
+  name: lvavolume-13
 spec:
   name: lvalecture13
   magnitude: 1

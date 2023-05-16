@@ -52,10 +52,12 @@ func (r *LvaVolumeReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	volume := &demooperatorv1.LvaVolume{}
 
 	r.Get(ctx, req.NamespacedName, volume)
-	l.Info("Volume=", "volume", volume)
+	l.Info("Volume=", "magnitude", volume.Spec.Magnitude)
+	l.Info("VolumeStatus=", "magnitude", volume.Status.Magnitude)
 
-	if volume.Spec.Name != volume.Status.Name {
-		volume.Status.Name = volume.Spec.Name
+	if volume.Spec.Magnitude != volume.Status.Magnitude {
+		l.Info("im trying to overwrite the Status now")
+		volume.Status.Magnitude = volume.Spec.Magnitude
 		r.Status().Update(ctx, volume)
 	}
 
