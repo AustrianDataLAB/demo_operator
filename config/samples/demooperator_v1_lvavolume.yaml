@@ -9,4 +9,5 @@ metadata:
     app.kubernetes.io/created-by: demooperator
   name: lvavolume-sample
 spec:
-  # TODO(user): Add fields here
+  name: lvalecture13
+  magnitude: 1

@@ -29,15 +29,16 @@ type LvaVolumeSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of LvaVolume. Edit lvavolume_types.go to remove/update
-	Name string `json:"name,omitempty"`
-	Size int    `json:"int,omitempty"`
+	Name      string `json:"name,omitempty"`
+	Magnitude int    `json:"magnitude,omitempty"`
 }
 
 // LvaVolumeStatus defines the observed state of LvaVolume
 type LvaVolumeStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
+	Magnitude int    `json:"magnitude,omitempty"`
 }
 
 //+kubebuilder:object:root=true

@@ -35,7 +35,7 @@ spec:
           spec:
             description: LvaVolumeSpec defines the desired state of LvaVolume
             properties:
-              int:
+              magnitude:
                 type: integer
               name:
                 description: Foo is an example field of LvaVolume. Edit lvavolume_types.go
@@ -45,6 +45,8 @@ spec:
           status:
             description: LvaVolumeStatus defines the observed state of LvaVolume
             properties:
+              magnitude:
+                type: integer
               name:
                 description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
                   of cluster Important: Run "make" to regenerate code after modifying
