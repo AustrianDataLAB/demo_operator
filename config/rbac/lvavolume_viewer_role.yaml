@@ -1,0 +1,27 @@
+# permissions for end users to view lvavolumes.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: lvavolume-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: demooperator
+    app.kubernetes.io/part-of: demooperator
+    app.kubernetes.io/managed-by: kustomize
+  name: lvavolume-viewer-role
+rules:
+- apiGroups:
+  - demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org
+  resources:
+  - lvavolumes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org
+  resources:
+  - lvavolumes/status
+  verbs:
+  - get

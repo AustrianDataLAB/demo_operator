@@ -1,0 +1,12 @@
+apiVersion: demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org/v1
+kind: LvaVolume
+metadata:
+  labels:
+    app.kubernetes.io/name: lvavolume
+    app.kubernetes.io/instance: lvavolume-sample
+    app.kubernetes.io/part-of: demooperator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: demooperator
+  name: lvavolume-sample
+spec:
+  # TODO(user): Add fields here

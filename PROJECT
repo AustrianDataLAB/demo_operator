@@ -7,4 +7,14 @@ layout:
 - go.kubebuilder.io/v4
 projectName: demooperator
 repo: demooperator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: operator.caas-0002.beta.austrianopencloudcommunity.org
+  group: demooperator
+  kind: LvaVolume
+  path: demooperator/api/v1
+  version: v1
 version: "3"
