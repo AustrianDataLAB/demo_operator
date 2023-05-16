@@ -49,6 +49,15 @@ type LvaVolumeReconciler struct {
 func (r *LvaVolumeReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	l := log.FromContext(ctx)
 	l.Info("You are executing the reconcile loop right now", "req", req)
+	volume := &demooperatorv1.LvaVolume{}
+
+	r.Get(ctx, req.NamespacedName, volume)
+	l.Info("Volume=", "volume", volume)
+
+	if volume.Spec.Name != volume.Status.Name {
+		volume.Status.Name = volume.Spec.Name
+		r.Status().Update(ctx, volume)
+	}
 
 	return ctrl.Result{}, nil
 }
