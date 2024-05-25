@@ -7,10 +7,12 @@ metadata:
     app.kubernetes.io/part-of: demooperator
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/created-by: demooperator
-  name: icecream-sample
+  name: toomuch
 spec:
   flavour:
   - "matcha"
+  - "vanilla"
   topping:
   - cream
   - coconutflakes
+  - watermelon
