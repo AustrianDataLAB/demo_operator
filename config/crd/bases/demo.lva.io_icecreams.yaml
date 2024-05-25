@@ -3,22 +3,30 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
-  name: lvavolumes.demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org
+    controller-gen.kubebuilder.io/version: v0.13.0
+  name: icecreams.demo.lva.io
 spec:
-  group: demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org
+  group: demo.lva.io
   names:
-    kind: LvaVolume
-    listKind: LvaVolumeList
-    plural: lvavolumes
-    singular: lvavolume
-  scope: Namespaced
+    kind: Icecream
+    listKind: IcecreamList
+    plural: icecreams
+    singular: icecream
+  scope: Cluster
   versions:
-  - name: v1
+  - additionalPrinterColumns:
+    - description: SoldOut
+      jsonPath: .status.soldOut
+      name: SoldOut
+      type: string
+    - description: ToppingsCount
+      jsonPath: .status.toppingsCount
+      name: ToppingsCount
+      type: integer
+    name: v1
     schema:
       openAPIV3Schema:
-        description: LvaVolume is the Schema for the lvavolumes API
+        description: Icecream is the Schema for the icecreams API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -33,25 +41,31 @@ spec:
           metadata:
             type: object
           spec:
-            description: LvaVolumeSpec defines the desired state of LvaVolume
+            description: IcecreamSpec defines the desired state of Icecream
             properties:
-              magnitude:
-                type: integer
-              name:
-                description: Foo is an example field of LvaVolume. Edit lvavolume_types.go
+              flavour:
+                description: Foo is an example field of Icecream. Edit icecream_types.go
                   to remove/update
-                type: string
+                items:
+                  type: string
+                type: array
+              topping:
+                items:
+                  type: string
+                type: array
             type: object
           status:
-            description: LvaVolumeStatus defines the observed state of LvaVolume
+            description: IcecreamStatus defines the observed state of Icecream
             properties:
-              magnitude:
-                type: integer
-              name:
+              soldOut:
                 description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
                   of cluster Important: Run "make" to regenerate code after modifying
-                  this file'
-                type: string
+                  this file a randomly assigned boolean to indicate if the icecream
+                  is sold out'
+                type: boolean
+              toppingsCount:
+                description: you can only have 3 toppings
+                type: integer
             type: object
         type: object
     served: true

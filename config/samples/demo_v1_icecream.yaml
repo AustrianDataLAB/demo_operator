@@ -1,0 +1,16 @@
+apiVersion: demo.lva.io/v1
+kind: Icecream
+metadata:
+  labels:
+    app.kubernetes.io/name: icecream
+    app.kubernetes.io/instance: icecream-sample
+    app.kubernetes.io/part-of: demooperator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: demooperator
+  name: icecream-sample
+spec:
+  flavour:
+  - "matcha"
+  topping:
+  - cream
+  - coconutflakes

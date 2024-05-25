@@ -1,27 +1,31 @@
-# permissions for end users to view lvavolumes.
+# permissions for end users to edit icecreams.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/name: clusterrole
-    app.kubernetes.io/instance: lvavolume-viewer-role
+    app.kubernetes.io/instance: icecream-editor-role
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: demooperator
     app.kubernetes.io/part-of: demooperator
     app.kubernetes.io/managed-by: kustomize
-  name: lvavolume-viewer-role
+  name: icecream-editor-role
 rules:
 - apiGroups:
-  - demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org
+  - demo.lva.io
   resources:
-  - lvavolumes
+  - icecreams
   verbs:
+  - create
+  - delete
   - get
   - list
+  - patch
+  - update
   - watch
 - apiGroups:
-  - demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org
+  - demo.lva.io
   resources:
-  - lvavolumes/status
+  - icecreams/status
   verbs:
   - get

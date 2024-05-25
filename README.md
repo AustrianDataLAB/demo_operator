@@ -1,51 +1,91 @@
-# TL;DR
+# demooperator
+// TODO(user): Add simple overview of use/purpose
 
-## locally 
-open VSCode
-```
-brew install kubebuilder
-```
-(or equivalent linux)
+## Description
+// TODO(user): An in-depth paragraph about your project and overview of use
 
-```
-kubebuilder init --domain operator.caas-0002.beta.austrianopencloudcommunity.org --repo demooperator
-```
-```
-kubebuilder create api --group demooperator --version v1 --kind LvaVolume
-```
+## Getting Started
 
-Now, go to api/v1 and modify the lvavooume_types.go with  some very basic stuff like name and type.
-```
-make generate
-make manifests
-```
+### Prerequisites
+- go version v1.20.0+
+- docker version 17.03+.
+- kubectl version v1.11.3+.
+- Access to a Kubernetes v1.11.3+ cluster.
 
-go to internal/controller/lvavolume_controller.go and write custom logic
+### To Deploy on the cluster
+**Build and push your image to the location specified by `IMG`:**
 
-make sure you are connected to a kubernetes cluster and type `make install` this will install this amazing operator
-(which curretnly prints something to the logs and thats it)
-
-```
-make
+```sh
+make docker-build docker-push IMG=<some-registry>/demooperator:tag
 ```
 
-```
-/Users/croedig/gitrepos/demooperator/bin/controller-gen rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
-test -s /Users/croedig/gitrepos/demooperator/bin/kustomize || { curl -Ss "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" --output install_kustomize.sh && bash install_kustomize.sh 5.0.0 /Users/croedig/gitrepos/demooperator/bin; rm install_kustomize.sh; }
-v5.0.0
-kustomize installed to /Users/croedig/gitrepos/demooperator/bin/kustomize
-/Users/croedig/gitrepos/demooperator/bin/kustomize build config/crd | kubectl apply -f -
-customresourcedefinition.apiextensions.k8s.io/lvavolumes.demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org created
+**NOTE:** This image ought to be published in the personal registry you specified. 
+And it is required to have access to pull the image from the working environment. 
+Make sure you have the proper permission to the registry if the above commands don’t work.
+
+**Install the CRDs into the cluster:**
+
+```sh
+make install
 ```
 
-check that they got created
-```
-kubectl get crd
+**Deploy the Manager to the cluster with the image specified by `IMG`:**
+
+```sh
+make deploy IMG=<some-registry>/demooperator:tag
 ```
 
-edit the spec in the sample yaml config/samples/demooperator_v1_lvavolume.yaml and apply it
+> **NOTE**: If you encounter RBAC errors, you may need to grant yourself cluster-admin 
+privileges or be logged in as admin.
 
-then you can run `make run` and observe that the amazing logs are being produced
+**Create instances of your solution**
+You can apply the samples (examples) from the config/sample:
+
+```sh
+kubectl apply -k config/samples/
 ```
-2023-05-16T10:51:18+02:00       INFO    You are executing the reconcile loop right now  {"controller": "lvavolume", "controllerGroup": "demooperator.operator.caas-0002.beta.austrianopencloudcommunity.org", "controllerKind": "LvaVolume", "LvaVolume": {"name":"lvavolume-sample","namespace":"default"}, "namespace": "default", "name": "lvavolume-sample", "reconcileID": "057d3a41-0fee-49d0-aca7-8fe2f31834ff", "req": "default/lvavolume-sample"}
+
+>**NOTE**: Ensure that the samples has default values to test it out.
+
+### To Uninstall
+**Delete the instances (CRs) from the cluster:**
+
+```sh
+kubectl delete -k config/samples/
 ```
+
+**Delete the APIs(CRDs) from the cluster:**
+
+```sh
+make uninstall
+```
+
+**UnDeploy the controller from the cluster:**
+
+```sh
+make undeploy
+```
+
+## Contributing
+// TODO(user): Add detailed information on how you would like others to contribute to this project
+
+**NOTE:** Run `make --help` for more information on all potential `make` targets
+
+More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
+
+## License
+
+Copyright 2024.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+

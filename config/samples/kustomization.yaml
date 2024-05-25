@@ -1,4 +1,4 @@
 ## Append samples of your project ##
 resources:
-- demooperator_v1_lvavolume.yaml
+- demo_v1_icecream.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples
