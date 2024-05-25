@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -30,9 +30,10 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 
-	demooperatorv1 "demooperator/api/v1"
-	"demooperator/internal/controller"
+	demov1 "github.com/AustrianDataLab/demooperator/api/v1"
+	"github.com/AustrianDataLab/demooperator/internal/controller"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -44,7 +45,7 @@ var (
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
-	utilruntime.Must(demooperatorv1.AddToScheme(scheme))
+	utilruntime.Must(demov1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -67,11 +68,10 @@ func main() {
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:                 scheme,
-		MetricsBindAddress:     metricsAddr,
-		Port:                   9443,
+		Metrics:                metricsserver.Options{BindAddress: metricsAddr},
 		HealthProbeBindAddress: probeAddr,
 		LeaderElection:         enableLeaderElection,
-		LeaderElectionID:       "93b65446.operator.caas-0002.beta.austrianopencloudcommunity.org",
+		LeaderElectionID:       "d742caf6.lva.io",
 		// LeaderElectionReleaseOnCancel defines if the leader should step down voluntarily
 		// when the Manager ends. This requires the binary to immediately end when the
 		// Manager is stopped, otherwise, this setting is unsafe. Setting this significantly
@@ -89,11 +89,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controller.LvaVolumeReconciler{
+	if err = (&controller.IcecreamReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "LvaVolume")
+		setupLog.Error(err, "unable to create controller", "controller", "Icecream")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

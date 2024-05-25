@@ -2,19 +2,19 @@
 # This file is used to track the info used to scaffold your project
 # and allow the plugins properly work.
 # More info: https://book.kubebuilder.io/reference/project-config.html
-domain: operator.caas-0002.beta.austrianopencloudcommunity.org
+domain: lva.io
 layout:
 - go.kubebuilder.io/v4
 projectName: demooperator
-repo: demooperator
+repo: github.com/AustrianDataLab/demooperator
 resources:
 - api:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: operator.caas-0002.beta.austrianopencloudcommunity.org
-  group: demooperator
-  kind: LvaVolume
-  path: demooperator/api/v1
+  domain: lva.io
+  group: demo
+  kind: Icecream
+  path: github.com/AustrianDataLab/demooperator/api/v1
   version: v1
 version: "3"
