@@ -19,6 +19,8 @@ package controller
 import (
 	"context"
 
+	"sigs.k8s.io/controller-runtime/pkg/log"
+
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 
 	"k8s.io/apimachinery/pkg/runtime"
@@ -48,6 +50,7 @@ type IcecreamReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.16.3/pkg/reconcile
 func (r *IcecreamReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	log := log.FromContext(ctx)
 	// Fetch the Icecream instance
 	icecream := &demov1.Icecream{}
 	err := r.Get(ctx, req.NamespacedName, icecream)
@@ -61,6 +64,33 @@ func (r *IcecreamReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, err
 	}
 
+	// Check if the Icecream instance is marked to be deleted, which is indicated by the deletion timestamp being set.
+	isIcecreamMarkedToBeDeleted := icecream.GetDeletionTimestamp() != nil
+	if isIcecreamMarkedToBeDeleted {
+		if contains(icecream.GetFinalizers(), finalizerName) {
+			// Run finalization logic for finalizerName. If the finalization logic fails, don't remove the finalizer so
+			// that we can retry during the next reconciliation.
+			if err := r.finalizeIcecream(req); err != nil {
+				return ctrl.Result{}, err
+			}
+
+			// Remove finalizerName from the list and update it.
+			icecream.SetFinalizers(remove(icecream.GetFinalizers(), finalizerName))
+			if err := r.Update(ctx, icecream); err != nil {
+				return ctrl.Result{}, err
+			}
+		}
+		log.Info("Running finalizer for Icecream", "name", req.NamespacedName)
+		return ctrl.Result{}, nil
+	}
+
+	// The object is not being deleted, so if it does not have our finalizer, then lets add the finalizer and update the object. This is equivalent to registering our finalizer.
+	if !contains(icecream.GetFinalizers(), finalizerName) {
+		icecream.SetFinalizers(append(icecream.GetFinalizers(), finalizerName))
+		if err := r.Update(ctx, icecream); err != nil {
+			return ctrl.Result{}, err
+		}
+	}
 	// List all Icecream instances
 	icecreamList := &demov1.IcecreamList{}
 	if err := r.List(ctx, icecreamList); err != nil {
@@ -100,6 +130,7 @@ func (r *IcecreamReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	if err != nil {
 		return ctrl.Result{}, err
 	}
+	log.Info("Successfully reconciled Icecream")
 
 	return ctrl.Result{}, nil
 }
@@ -119,4 +150,26 @@ func contains(slice []string, str string) bool {
 		}
 	}
 	return false
+}
+
+const (
+	finalizerName = "demo.lva.io/finalizer"
+)
+
+func (r *IcecreamReconciler) finalizeIcecream(req ctrl.Request) error {
+	return nil
+}
+
+func remove(slice []string, s string) []string {
+	index := -1
+	for i, v := range slice {
+		if v == s {
+			index = i
+			break
+		}
+	}
+	if index == -1 {
+		return slice
+	}
+	return append(slice[:index], slice[index+1:]...)
 }
