@@ -29,7 +29,8 @@ type IcecreamSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Icecream. Edit icecream_types.go to remove/update
-	Flavour []string `json:"flavour,omitempty"`
+	// +kubebuilder:validation:Enum=matcha;vanilla;saffron
+	Flavour string   `json:"flavour,omitempty"`
 	Topping []string `json:"topping,omitempty"`
 }
 

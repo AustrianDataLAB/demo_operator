@@ -46,9 +46,11 @@ spec:
               flavour:
                 description: Foo is an example field of Icecream. Edit icecream_types.go
                   to remove/update
-                items:
-                  type: string
-                type: array
+                enum:
+                - matcha
+                - vanilla
+                - saffron
+                type: string
               topping:
                 items:
                   type: string

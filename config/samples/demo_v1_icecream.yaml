@@ -9,9 +9,7 @@ metadata:
     app.kubernetes.io/created-by: demooperator
   name: toomuch
 spec:
-  flavour:
-  - "matcha"
-  - "vanilla"
+  flavour: matcha
   topping:
   - cream
   - coconutflakes

@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello-1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: hello-1
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  namespace: hello-1
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: lva-1.caas-0026.beta.austrianopencloudcommunity.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nginx-deployment
+            port:
+              number: 80
+  tls:
+    - hosts:
+        - lva-1.caas-0026.beta.austrianopencloudcommunity.org
+      secretName: tls-lva-1-ingress

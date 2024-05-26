@@ -102,7 +102,7 @@ func (r *IcecreamReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	var newestIcecream *demov1.Icecream
 	for _, i := range icecreamList.Items {
 		for _, flavour := range i.Spec.Flavour {
-			if contains(icecream.Spec.Flavour, flavour) {
+			if string(flavour) == i.Spec.Flavour {
 				count++
 				if newestIcecream == nil || i.CreationTimestamp.After(newestIcecream.CreationTimestamp.Time) {
 					newestIcecream = &i

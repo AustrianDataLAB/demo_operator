@@ -191,6 +191,9 @@ cluster-up: ## Create the kind cluster
 	docker pull quay.io/cilium/cilium:v1.15.5
 	kind load docker-image quay.io/cilium/cilium:v1.15.5 --name $(CLUSTER_NAME)
 	helm install cilium cilium/cilium --version 1.15.5 --namespace kube-system --set image.pullPolicy=IfNotPresent --set ipam.mode=kubernetes
+	-helm repo add jetstack https://charts.jetstack.io
+	-helm repo update
+	-helm upgrade --install cert-manager jetstack/cert-manager --set installCRDs=true --namespace cert-manager  --create-namespace
 
 
 # takes very long !
